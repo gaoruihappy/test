@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		 var image = '';
+		 function selectImage(file){
+			if(!file.files || !file.files[0]){
+				return;
+			}
+			//实现预览图片
+			var blob = new Blob([file.files[0]]);// 传入一个合适的MIME类型
+			var url = URL.createObjectURL(blob);
+			document.querySelector('#image').src=url
+		}
+	</script>
+	<img id="image"src=""/>
+	<br/>
+	<input id="a" type="file"onchange="selectImage(this);"/>
+	<br/>
+	<input type="button"onclick="uploadImage();"value="提交"/>
+</body>
+</html>
