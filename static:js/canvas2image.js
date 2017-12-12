@@ -7,13 +7,21 @@ var createBMP=function(oData){var aHeader=[];var iWidth=oData.width;var iHeight=
 var iPadding=(4-((iWidth*3)%4))%4;var aImgData=oData.data;var strPixelData="";var y=iHeight;do{var iOffsetY=iWidth*(y-1)*4;var strPixelRow="";for(var x=0;x<iWidth;x++){var iOffsetX=4*x;strPixelRow+=String.fromCharCode(aImgData[iOffsetY+iOffsetX+2]);strPixelRow+=String.fromCharCode(aImgData[iOffsetY+iOffsetX+1]);strPixelRow+=String.fromCharCode(aImgData[iOffsetY+iOffsetX]);}
 for(var c=0;c<iPadding;c++){strPixelRow+=String.fromCharCode(0);}
 strPixelData+=strPixelRow;}while(--y);var strEncoded=encodeData(aHeader.concat(aInfoHeader))+ encodeData(strPixelData);return strEncoded;}
-var saveFile=function(strData){document.location.href=strData;}
+var saveFile=function(strData){
+	console.log(strData)
+	document.location.href=strData;
+}
 var makeDataURI=function(strData,strMime){return"data:"+ strMime+";base64,"+ strData;}
 var makeImageObject=function(strSource){var oImgElement=document.createElement("img");oImgElement.src=strSource;return oImgElement;}
 var scaleCanvas=function(oCanvas,iWidth,iHeight){if(iWidth&&iHeight){var oSaveCanvas=document.createElement("canvas");oSaveCanvas.width=iWidth;oSaveCanvas.height=iHeight;oSaveCanvas.style.width=iWidth+"px";oSaveCanvas.style.height=iHeight+"px";var oSaveCtx=oSaveCanvas.getContext("2d");oSaveCtx.drawImage(oCanvas,0,0,oCanvas.width,oCanvas.height,0,0,iWidth,iHeight);return oSaveCanvas;}
 return oCanvas;}
-return{saveAsPNG:function(oCanvas,bReturnImg,iWidth,iHeight){if(!bHasDataURL){return false;}
-var oScaledCanvas=scaleCanvas(oCanvas,iWidth,iHeight);var strData=oScaledCanvas.toDataURL("image/png");if(bReturnImg){return makeImageObject(strData);}else{saveFile(strData.replace("image/png",strDownloadMime));}
+return{saveAsPNG:
+	function(oCanvas,bReturnImg,iWidth,iHeight)
+	{if(!bHasDataURL){return false;}
+	var oScaledCanvas=scaleCanvas(oCanvas,iWidth,iHeight);
+	var strData=oScaledCanvas.toDataURL("image/png");
+	if(bReturnImg){return makeImageObject(strData);}
+	else{saveFile(strData.replace("image/png",strDownloadMime));}
 return true;},saveAsJPEG:function(oCanvas,bReturnImg,iWidth,iHeight){if(!bHasDataURL){return false;}
 var oScaledCanvas=scaleCanvas(oCanvas,iWidth,iHeight);var strMime="image/jpeg";var strData=oScaledCanvas.toDataURL(strMime);if(strData.indexOf(strMime)!=5){return false;}
 if(bReturnImg){return makeImageObject(strData);}else{saveFile(strData.replace(strMime,strDownloadMime));}

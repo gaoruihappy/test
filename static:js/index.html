@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	.hide{
+		display: none;
+	}
+	.large{
+		width: 200px;
+		height: 200px;
+		background-color: green;
+	}
+</style>
+<body>
+	<table class="planning" style="width:200px;height:200px">
+		<tr>
+			<td>身份证</td>
+			<td>身份证</td>
+			<td>身份证</td>
+			<td>身份证</td>
+			<td>身份证</td>
+			<td>身份证</td>
+			<td>123</td>
+			<td>123</td>
+		</tr>
+	</table>
+	img标签图片<img src="./aa.jpg" />
+	
+	<div class="plan hide"></div>
+	生成的canvas<div class="plan large"></div>
+	<script type="text/javascript" src="./html2canvas.js"></script>
+	<script type="text/javascript" src="./canvas2image.js"></script>
+	<script type="text/javascript" src="./jquery.js"></script>
+	<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+		$(".plan").click(function(){
+
+		    location.href = 'lianjialink://component/saveimage_url?image_url=http://10.33.79.30:8080/aa.jpg'
+		  
+		});
+		// function diamge(){
+		// 	location.href = 'lianjialink://component/saveimage_url?image_url=http://10.33.79.30:8080/aa.jpg'
+		// }
+		  function download () {  
+		    // var targetDom = $(".planning");    
+		    // var copyDom = targetDom.clone();    
+		    // copyDom.width(targetDom.width() + "px");    
+		    // copyDom.height(targetDom.height() + "px");    
+		    // $('.plan').append(copyDom);  
+		    html2canvas(document.querySelector('.planning'), {
+		       onrendered: (canvas)=>{
+		         document.querySelector('.plan').appendChild(canvas);
+		         this.loadScript();
+		       }
+		     });
+		  }
+		  function loadScript(){
+		      Canvas2Image.saveAsPNG(document.querySelector("canvas"));
+		      // saveFile(data,'a')
+		  }
+		  function saveFile(data, filename) {
+			    const save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+			    save_link.href = data;
+			    save_link.download = filename;
+
+			    const event = document.createEvent('MouseEvents');
+			    event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			    save_link.dispatchEvent(event);
+			}
+		  // download();
+	</script>
+</body>
+</html>
